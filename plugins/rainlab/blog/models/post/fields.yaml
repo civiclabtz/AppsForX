@@ -16,9 +16,6 @@ fields:
         preset:
             field: title
             type: slug
-            
-    author:
-        label: Author
 
     toolbar:
         type: partial
@@ -40,11 +37,6 @@ secondaryTabs:
             type: relation
             commentAbove: rainlab.blog::lang.post.categories_comment
             placeholder: rainlab.blog::lang.post.categories_placeholder
-            
-        event:
-            tab: rainlab.blog::lang.post.tab_manage
-            label: Related event
-            type: relation
 
         published:
             tab: rainlab.blog::lang.post.tab_manage
@@ -58,7 +50,7 @@ secondaryTabs:
             span: left
             cssClass: checkbox-align
             type: datepicker
-            mode: date
+            mode: datetime
             trigger:
                 action: enable
                 field: published
@@ -73,14 +65,6 @@ secondaryTabs:
         featured_images:
             tab: rainlab.blog::lang.post.tab_manage
             label: rainlab.blog::lang.post.featured_images
-            type: fileupload
-            mode: image
-            imageWidth: 200
-            imageHeight: 200
-            
-        avatar:
-            tab: rainlab.blog::lang.post.tab_manage
-            label: 'Avatar'
             type: fileupload
             mode: image
             imageWidth: 200

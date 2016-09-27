@@ -8,8 +8,11 @@ columns:
         label: rainlab.blog::lang.post.title
         searchable: true
 
-    author:
-        label: Author
+    # author:
+    #   label: Author
+    #   relation: user
+    #   select: login
+    #   searchable: true
 
     categories:
         label: rainlab.blog::lang.post.categories
@@ -17,11 +20,6 @@ columns:
         select: name
         searchable: true
         sortable: false
-        
-    event:
-        label: Event
-        relation: event
-        select: name
 
     created_at:
         label: rainlab.blog::lang.post.created

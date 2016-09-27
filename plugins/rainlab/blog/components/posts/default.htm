@@ -1,34 +1,27 @@
 {% set posts = __SELF__.posts %}
-    
-{% for id, post in posts %}
-<div class="news-post">
-    <div class="news-post-image">
-        {% if post.featured_images.count %}
-            <a class="overlay" href="{{ 'blog'|page({ slug: post.slug }) }}" style="background-image: url('{{ post.featured_images[0].path }}')"></a>            
-        {% else %}     
-            <a class="overlay" href="{{ 'blog'|page({ slug: post.slug }) }}" style="background-image: url('{{ 'assets/png/blogpost_picture.png'|theme }}')"></a>
-        {% endif %}
-    </div>
-    <div class="news-post-content-container">
-        <div class="news-post-content">
-            <h4><a href="{{ 'blog'|page({ slug: post.slug }) }}">{{ post.title|raw }}</a></h4>
-            <p class="news-post-excerpt">{{ post.excerpt|raw }}</p>
-            <p class="news-post-date">
+
+<ul class="post-list">
+    {% for post in posts %}
+        <li>
+            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+
+            <p class="info">
+                Posted
+                {% if post.categories.count %} in {% endif %}
                 {% for category in post.categories %}
-                    <a href="{{ 'blogcategory'|page({ slug: category.slug }) }}" class="chip chip-grey chip-small light">{{ category.name }}</a>
+                    <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
                 {% endfor %}
-                &nbsp;
-                <span class="date pull-right">Posted at {{ post.published_at|date("d/m/Y") }}
-                    {% if post.author %} by {{ post.author }} {% endif %}
-                </span>
+                on {{ post.published_at|date('M d, Y') }}
             </p>
-        </div>
-    </div>
-</div>
-{% endfor %}
+
+            <p class="excerpt">{{ post.summary }}</p>
+        </li>
+    {% else %}
+        <li class="no-data">{{ noPostsMessage }}</li>
+    {% endfor %}
+</ul>
 
 {% if posts.lastPage > 1 %}
-<div class="pagination-container">
     <ul class="pagination">
         {% if posts.currentPage > 1 %}
             <li><a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage-1) }) }}">&larr; Prev</a></li>
@@ -36,12 +29,12 @@
 
         {% for page in 1..posts.lastPage %}
             <li class="{{ posts.currentPage == page ? 'active' : null }}">
-                <a href="{{ this.page.baseFileName|page({ (pageParam): page }) }}">{{ page }}</a></li>
+                <a href="{{ this.page.baseFileName|page({ (pageParam): page }) }}">{{ page }}</a>
+            </li>
         {% endfor %}
 
         {% if posts.lastPage > posts.currentPage %}
             <li><a href="{{ this.page.baseFileName|page({ (pageParam): (posts.currentPage+1) }) }}">Next &rarr;</a></li>
         {% endif %}
     </ul>
-</div>
 {% endif %}

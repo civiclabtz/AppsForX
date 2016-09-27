@@ -1,62 +1,27 @@
 {% set post = __SELF__.post %}
 
-<div class="news-post">
-    <div class="news-post-image">
-        {% if post.featured_images.count %}
-            <img class="featured-img" src="{{ post.featured_images[0].path }}">     
-        {% else %}     
-            <img class="featured-img" src="{{ 'assets/png/testlogo1.png'|theme }}">
-        {% endif %}
-        <!-- Desktop share links -->
-        <div class="hidden-xs">
-            <a class="news-post-share light" href="https://twitter.com/share?url={{ url_full() }}"><img src="{{ 'assets/svg/twitter.svg'|theme }}"> Deel via Twitter</a>
-            <a class="news-post-share light" onclick="shareFb()"><img src="{{ 'assets/svg/facebook.svg'|theme }}"> Deel via Facebook</a>
-        </div>
-        <!-- End desktop share links -->
-    </div>
-    <div class="news-post-content-container">
-        <div class="news-post-content">
-            <h4>{{ post.title|raw }}</h4>
-            <p>{{ post.content_html|raw }}</p>
-            <p class="bottom-spacer"></p>
-            <p class="news-post-date">
-                {% for category in post.categories %}
-                    <a href="{{ 'blogcategory'|page({ slug: category.slug }) }}"  class="chip chip-grey chip-small light">{{ category.name }}</a>
-                {% endfor %}
-                &nbsp;
-                <span class="date pull-right">Gepost op {{ post.published_at|date("d/m/Y") }}
-                    {% if post.author %} door {{ post.author }} {% endif %}
-                </span>
-            </p>
-            <!-- Mobile share links -->
-            <div class="visible-xs">
-                <a class="news-post-share light" href="https://twitter.com/share?url={{ url_full() }}"><img src="{{ 'assets/svg/twitter.svg'|theme }}"> Deel via Twitter</a>
-                <a class="news-post-share light" onclick="shareFb()"><img src="{{ 'assets/svg/facebook.svg'|theme }}"> Deel via Facebook</a>
-            </div>
-            <!-- End mobile share links -->
-        </div>
-    </div>
-</div>
+<div class="content">{{ post.content_html|raw }}</div>
 
-<script>    
-    document.addEventListener("DOMContentLoaded", function() {
-        $.ajaxSetup({ cache: true });
-        $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
-            FB.init({
-            appId: 'YOUR_APP_ID_HERE',
-            version: 'v2.5'
-            });    
-        });
-        
-        shareFb = function() {
-            FB.ui({
-                method: 'share',
-                display: 'popup',
-                picture: '{{ url() }}{{ post.featured_images[0].path }}',
-                href: '{{ url_full() }}',
-                caption: '{{ post.title|raw }}',
-            }, function(response){}); 
-        }
-    
-    });
-</script>
+{% if post.featured_images.count %}
+    <div class="featured-images text-center">
+        {% for image in post.featured_images %}
+            <p>
+                <img
+                    data-src="{{ image.filename }}"
+                    src="{{ image.path }}"
+                    alt="{{ image.description }}"
+                    style="max-width: 100%" />
+            </p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<p class="info">
+    Posted
+    {% if post.categories.count %} in
+        {% for category in post.categories %}
+            <a href="{{ category.url }}">{{ category.name }}</a>{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    {% endif %}
+    on {{ post.published_at|date('M d, Y') }}
+</p>

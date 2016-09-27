@@ -43,7 +43,9 @@ In the storage/cms folder, check if the following folders exist:
 - combiner
 - twig
 
-If they do not exist, create these folders but don't put anything in them.
+If they do not exist, perform the following from the root of your project:
+
+`mkdir storage/cms/cache && mkdir storage/cms/combiner && mkdir storage/cms/twig`
 
 ### Step 4: Migrate the database
 
@@ -53,18 +55,18 @@ If they do not exist, create these folders but don't put anything in them.
 
 The following directories need to be writable (make sure they exist!):
 
-- app/storage
+- storage/app
 - themes
 - uploads
 
 Terminal commands: 
 
 ```
-chown -R root:www-data app/storage
+chown -R root:www-data storage/app
 chown -R root:www-data themes
 chown -R root:www-data uploads
 
-chmod -R 775 app/storage/
+chmod -R 775 storage/app
 chmod -R 775 themes
 chmod -R 775 uploads
 ```

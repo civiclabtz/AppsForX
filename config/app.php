@@ -113,8 +113,7 @@ return [
 
     'providers' => array_merge(include(base_path().'/modules/system/providers.php'), [
 
-        // 'Illuminate\Html\HtmlServiceProvider', // Example
-
+        'Laracasts\Generators\GeneratorsServiceProvider',
         'System\ServiceProvider',
     ]),
 
